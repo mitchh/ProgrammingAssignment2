@@ -5,15 +5,53 @@
 # the vector caching described in the assignemnt, but this time for matrices
 
 ## Create a "matrix" which is really a list of operation functions and has a place to 
-## stash a cache of the inverse
+## stash a cache of the inverse. Based on makeVector(), and modified. 
 
 makeCacheMatrix <- function(x = matrix()) {
-
+        inv <- NULL
+        set <- function(y) {
+                x <<- y
+                inv <<- NULL
+        }
+        get <- function() x
+        setinverse <- function(newInv) inv <<- newInv
+        getinverse <- function() inv
+        list(set = set, get = get,
+             setinverse = setinverse,
+             getinverse = getinverse)
 }
 
 
-## Inverse finder for out casching matrix which will use the cached version if it can
+## Inverse solver for our caching matrix which will use the cached version if it can.
+## Based on cachemean from the assignment, and modified
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+        ## Return a matrix that is the inverse of 'x'. 
+        inv <- x$getinverse()
+        if(!is.null(inv)) {
+                message("getting cached data")
+                return(inv)
+        }
+        m <- x$get()
+        inv <- solve(m, ...)
+        x$setinverse(inv)
+        inv
+}
+
+testinverse <- function() {
+	m <- matrix(c(1,0,5,2,1,6,3,4,0), nrow = 3, ncol = 3)	# from http://www.purplemath.com/modules/mtrxinvr2.htm 
+	cm <- makeCacheMatrix(m)
+	i <- cacheSolve(cm)
+	print(i)
+	i <- cacheSolve(cm)
+	print(i)
+	i <- cacheSolve(cm)
+	print(i)
+	cm <- makeCacheMatrix(i)
+	i <- cacheSolve(cm)
+	print(i)
+	i <- cacheSolve(cm)
+	print(i)
+	i <- cacheSolve(cm)
+	print(i)
 }
