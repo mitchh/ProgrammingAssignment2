@@ -8,17 +8,29 @@
 ## stash a cache of the inverse. Based on makeVector(), and modified. 
 
 makeCacheMatrix <- function(x = matrix()) {
-        inv <- NULL
-        set <- function(y) {
-                x <<- y
-                inv <<- NULL
-        }
-        get <- function() x
-        setinverse <- function(newInv) inv <<- newInv
-        getinverse <- function() inv
-        list(set = set, get = get,
-             setinverse = setinverse,
-             getinverse = getinverse)
+
+	# we don't have an inverse cached at first
+	inv <- NULL
+
+	## learn/wrap the new matrix (y), toss any cached inverse
+	set <- function(y) {
+		x <<- y
+		inv <<- NULL
+	}
+
+	## return the wrapped matrix
+	get <- function() x
+
+	## stash a matrix assumed to be the inverse (i.e. "cache it")
+	setinverse <- function(newInv) inv <<- newInv
+
+	## retrieve the (cached inverse) matrix stored with setinverse 
+	getinverse <- function() inv
+
+	## we really return a list of these accessors/mutators
+	list(set = set, get = get,
+		setinverse = setinverse,
+		getinverse = getinverse)
 }
 
 
@@ -27,16 +39,20 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'. 
+
+        # get and return the stashed inverse if we (x) has one
         inv <- x$getinverse()
         if(!is.null(inv)) {
-                message("getting cached data")
-                return(inv)
+        	message("getting cached data")
+        	return(inv)
         }
+
+        # no stash; solve it and store the result in the cache; return that
         m <- x$get()
         inv <- solve(m, ...)
         x$setinverse(inv)
         inv
-}
+    }
 
 # testinverse <- function() {
 # 	m <- matrix(c(1,0,5,2,1,6,3,4,0), nrow = 3, ncol = 3)	# from http://www.purplemath.com/modules/mtrxinvr2.htm 
