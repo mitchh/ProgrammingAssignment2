@@ -38,20 +38,20 @@ cacheSolve <- function(x, ...) {
         inv
 }
 
-testinverse <- function() {
-	m <- matrix(c(1,0,5,2,1,6,3,4,0), nrow = 3, ncol = 3)	# from http://www.purplemath.com/modules/mtrxinvr2.htm 
-	cm <- makeCacheMatrix(m)
-	i <- cacheSolve(cm)
-	print(i)
-	i <- cacheSolve(cm)
-	print(i)
-	i <- cacheSolve(cm)
-	print(i)
-	cm <- makeCacheMatrix(i)
-	i <- cacheSolve(cm)
-	print(i)
-	i <- cacheSolve(cm)
-	print(i)
-	i <- cacheSolve(cm)
-	print(i)
-}
+# testinverse <- function() {
+# 	m <- matrix(c(1,0,5,2,1,6,3,4,0), nrow = 3, ncol = 3)	# from http://www.purplemath.com/modules/mtrxinvr2.htm 
+# 	cm <- makeCacheMatrix(m)
+# 	i <- cacheSolve(cm)
+# 	print(i)
+# 	i <- cacheSolve(cm)
+# 	print(i)
+# 	i <- cacheSolve(cm)
+# 	print(i)
+# 	cm <- makeCacheMatrix(i)
+# 	i <- cacheSolve(cm)
+# 	print(i)
+# 	i <- cacheSolve(cm)
+# 	print(i)
+# 	i <- cacheSolve(cm)
+# 	print(i)
+# }
